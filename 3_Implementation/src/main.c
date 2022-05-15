@@ -1,5 +1,6 @@
+#include "MyStm32f407xx.h"
 #include <stdint.h>
-
+#include <stdio.h>
 #define BTN_PRESSED ENABLE
 #define GPIOD_BASE_ADDR 0x40020C00
 #define GPIOD_ODR_OFFSET 0x14
@@ -17,17 +18,55 @@
 
 int main()
 {
-	int i,b=0,j=0;  
-	RCC_AHB1ENR |= (1<<3)|(1<<0); 
-	GPIOD_MODE = 0;
-	GPIOA_MODE = 0; 
-	GPIOA_IDR |= 1<<3;
-	GPIOD_MODE |= (0<<25)|(1<<24);  
-	GPIOD_MODE |= (0<<27)|(1<<26);  
-	GPIOD_MODE |= (0<<29)|(1<<28); 
-	GPIOD_MODE |= (0<<31)|(1<<30);  
-	GPIOA_MODE |= (0<<1)|(0<<0);    
-	GPIOD_ODR = 0X00;
+		GPIO_Handle_t GpioLed, GpioLed1, GpioLed2, GpioLed3, GpioBtn;
+
+
+	GpioLed.pGPIOx = GPIOD;
+	GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
+	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GPIO_PeriClockControl(GPIOD, ENABLE);
+	GPIO_Init(&GpioLed);
+
+
+	GpioLed1.pGPIOx = GPIOD;
+	GpioLed1.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_13;
+	GpioLed1.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	GpioLed1.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GpioLed1.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GPIO_PeriClockControl(GPIOD, ENABLE);
+	GPIO_Init(&GpioLed1);
+
+
+	GpioLed2.pGPIOx = GPIOD;
+	GpioLed2.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
+	GpioLed2.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	GpioLed2.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GpioLed2.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GPIO_PeriClockControl(GPIOD, ENABLE);
+	GPIO_Init(&GpioLed2);
+
+
+	GpioLed3.pGPIOx = GPIOD;
+	GpioLed3.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_15;
+	GpioLed3.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	GpioLed3.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GpioLed3.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	GPIO_PeriClockControl(GPIOD, ENABLE);
+	GPIO_Init(&GpioLed3);
+
+
+	GpioBtn.pGPIOx = GPIOA;
+	GpioBtn.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_0;
+	GpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+	GpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	GpioBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	GPIO_PeriClockControl(GPIOA, ENABLE);
+	GPIO_Init(&GpioBtn);
+         int i, j;
+	uint32_t flag = 0;
+	uint32_t key_pressed = 0;
 	while(1)
 	{
 					while((GPIOA_IDR & 0x01) == 1) 
@@ -95,7 +134,7 @@ int main()
 					    GPIOD_ODR &= ~(1<<15);
 						for(i=0;i>=40000;i++);
 						}
-						//High Speed Delay
+						
 
 						for(j=0;j<5;j++)  
 					    {
