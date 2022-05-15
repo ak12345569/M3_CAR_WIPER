@@ -1,4 +1,15 @@
+#include "MyStm32f407xx.h"
 #include <stdint.h>
+#include <stdio.h>
+#define BTN_PRESSED ENABLE
+
+void delay(void);
+void igniton_on(void);
+void igniton_off(void);
+void Clockwise(void);
+void wiper_off(void);
+
+
 #define ADC_BASE_ADDR               0X40012000UL
 #define ADC_CR1_REG_OFFSET          0X04UL
 #define ADC_CR1_REG_ADDR             (ADC_BASE_ADDR + ADC_CR1_REG_OFFSET)
